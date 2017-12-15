@@ -21,6 +21,7 @@ COPY project/ .
 # Normal build command
 RUN mpicc -o mpi_hello_world mpi_hello_world.c
 RUN mpicc -o mpi_first mpi_first.c
+RUN mpicc -o p2p_message_passing p2p_message_passing.c
 
 # ####################
 # For Docker beginner:
