@@ -8,8 +8,11 @@ FROM nlknguyen/alpine-mpich:onbuild
 USER root
 RUN apk update
 RUN apk add vim
+
+RUN echo "alias ll='ls -alh'" >> /home/${USER}/.profile
+RUN chown root:${USER} /home/${USER}/.profile
 USER ${USER}
-RUN alias ll='ls -alh'
+RUN source ~/.profile
 
 # Note: the current directory is ${WORKDIR:=/project}, which is
 # also the default directory where ${USER:=mpi} will SSH login to
@@ -20,8 +23,10 @@ COPY project/ .
 
 # Normal build command
 RUN mpicc -o mpi_hello_world mpi_hello_world.c
+RUN mpicc -o add_set_of_numbers add_set_of_numbers.c
 RUN mpicc -o mpi_first mpi_first.c
 RUN mpicc -o p2p_message_passing p2p_message_passing.c
+RUN mpicc -o send_recieve send_recieve.c
 
 # ####################
 # For Docker beginner:
