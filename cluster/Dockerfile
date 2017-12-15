@@ -5,6 +5,11 @@ FROM nlknguyen/alpine-mpich:onbuild
 # # ------------------------------------------------------------
 
 # Put all build steps and additional package installation here
+USER root
+RUN apk update
+RUN apk add vim
+USER ${USER}
+RUN alias ll='ls -alh'
 
 # Note: the current directory is ${WORKDIR:=/project}, which is
 # also the default directory where ${USER:=mpi} will SSH login to
@@ -15,6 +20,7 @@ COPY project/ .
 
 # Normal build command
 RUN mpicc -o mpi_hello_world mpi_hello_world.c
+RUN mpicc -o mpi_first mpi_first.c
 
 # ####################
 # For Docker beginner:
